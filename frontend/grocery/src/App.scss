@@ -1,0 +1,8 @@
+@import url('./styles/Header.scss');
+@import url('./styles/ProductCards.scss');
+
+.main-content {
+    pointer-events: auto;
+    overflow: hidden;
+    padding: 50px 50px;
+}
