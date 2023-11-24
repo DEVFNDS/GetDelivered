@@ -1,13 +1,13 @@
 const initialState = {
-    count: 0,
+    products: {},
   };
   
   const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-      case 'INCREMENT':
+      case 'FETCH_PRODUCT_SUCCESS':
         return {
           ...state,
-          count: state.count + 1,
+          products: action.payload,
         };
       default:
         return state;
