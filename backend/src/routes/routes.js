@@ -1,4 +1,7 @@
 'use strict';
+
+const product = require('../controllers/productController.js')
+
 module.exports = function(app) {
     var userHandlers = require('../controllers/userController.js');
     // todoList Routes
@@ -8,4 +11,14 @@ module.exports = function(app) {
         .post(userHandlers.register);
    app.route('/auth/sign_in')
         .post(userHandlers.sign_in);
+
+    // product routes
+    app.post('/products', product.create);
+
+    app.post('/findbycategory',product.findByCategory);
+
+    app.post('/find',product.findOne);
+
+    app.post('/update',product.update);
+
 };
