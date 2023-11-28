@@ -8,27 +8,28 @@ var mongoose = require('mongoose'),
 exports.register = function(req, res) {
   var newUser = new User(req.body);
   newUser.hash_password = bcrypt.hashSync(req.body.password, 10);
-  newUser.save(function(err, user) {
-    if (err) {
-      return res.status(400).send({
-        message: err
-      });
-    } else {
-      user.hash_password = undefined;
-      return res.json(user);
-    }
-  });
+  newUser.save()
+  .then(data => {
+    res.send(data);
+}).catch(err => {
+    res.status(500).send({
+        message: err.message || "Some error occurred while creating the user."
+    });
+});
 };
 
-exports.sign_in = function(req, res) {
+exports.sign_in = async function(req, res) {
   User.findOne({
     email: req.body.email
-  }, function(err, user) {
-    if (err) throw err;
+  }).then(async user => {
     if (!user || !user.comparePassword(req.body.password)) {
       return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
     }
-    return res.json({ token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
+  
+    var tokenValue = jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') ;
+    await User.findOneAndUpdate({ email :  req.body.email }, { token: tokenValue });
+    res.json({ token: tokenValue });
+  
   });
 };
 
@@ -49,3 +50,11 @@ exports.profile = function(req, res, next) {
    return res.status(401).json({ message: 'Invalid token' });
   }
 };
+
+exports.sign_out = async function(req,res) {
+  await User.findOneAndUpdate({ email :  req.body.email }, { token: 0 });
+  return res.status(200).send({
+    message: "Logged out successfully"
+});
+}
+

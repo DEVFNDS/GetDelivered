@@ -11,6 +11,8 @@ module.exports = function(app) {
         .post(userHandlers.register);
    app.route('/auth/sign_in')
         .post(userHandlers.sign_in);
+    app.route('/auth/sign_out')
+        .post(userHandlers.sign_out);
 
     // product routes
     app.post('/products', product.create);

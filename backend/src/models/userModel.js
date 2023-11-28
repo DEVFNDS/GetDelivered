@@ -28,6 +28,10 @@ var UserSchema = new Schema({
   hash_password: {
     type: String
   },
+  token : {
+    type:String,
+    default : 0
+  },
   created: {
     type: Date,
     default: Date.now
