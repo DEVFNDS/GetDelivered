@@ -5,44 +5,30 @@ const multer = require('multer');
 // Set up storage for multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'uploads/'); // Destination folder for uploaded files
+      cb(null, '../uploads'); // Destination folder for uploaded files
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname); // Use the original file name
-    },
+        cb(null, file.fieldname + '-' + Date.now());
+      },
   });
 
 const upload = multer({ storage: storage });
 
-exports.create = (req,res) => {
 
-    const uploadMiddleware = upload.single('image');
+// Example usage in a route
 
-    uploadMiddleware(req, res, (err) => {
-        if (err) {
-            return res.status(500).send({
-                message: "Error uploading file",
-            });
-        }
-    });   
 
-    // Validate request
-     if(!req.body.content) {
-        return res.status(400).send({
-            message: "Note content can not be empty"
-        });
-    }
+exports.create = async (req,res,next) => {
 
     // Create a product
-    const product = new product({
+    const productVal = new product({
         productName: req.body.productName || "Untitled productName", 
         productDescription: req.body.productDescription,
-        productImage : req.productImage,
         category : req.body.category
     });
 
     // Save Note in the database
-    product.save()
+    productVal.save()
     .then(data => {
         res.send(data);
     }).catch(err => {

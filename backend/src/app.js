@@ -1,5 +1,6 @@
 // app.js
 const connectDB = require('../src/db/db.js'); // Adjust the path accordingly
+const product = require('./models/productModel.js');
 
 var express = require('express'),
   app = express(),
@@ -30,6 +31,33 @@ app.use(function(req, res, next) {
 });
 var routes = require('./routes/routes.js');
 routes(app);
+
+
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Specify the destination folder
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null,  file.fieldname + '-' + uniqueSuffix);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// Example usage in a route
+app.post('/upload', upload.single('image') ,(req, res,next) => {
+  
+  const uploadedFile = req.file;
+
+  // upload.single('image')(req,res,next);
+  const filename = uploadedFile.filename;
+  res.send(`${filename}`);
+});
+
 
 app.use(function(req, res) {
   res.status(404).send({ url: req.originalUrl + ' not found' })

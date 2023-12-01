@@ -20,11 +20,11 @@ var productSchema = {
         trim: true,
         required: true
     },
-    productImage : {
-        type: String,
-        trim: true,
-        required: true
-    },
+    // productImage : {
+    //     type: String,
+    //     trim: true,
+    //     required: true
+    // },
     category : {
         type: String,
         trim: true,
@@ -36,4 +36,4 @@ var productSchema = {
     }
 };
 
-mongoose.model('product', productSchema);
+module.exports = mongoose.model('product', productSchema);
