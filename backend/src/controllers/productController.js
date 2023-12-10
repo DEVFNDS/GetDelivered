@@ -24,7 +24,8 @@ exports.create = async (req,res,next) => {
     const productVal = new product({
         productName: req.body.productName || "Untitled productName", 
         productDescription: req.body.productDescription,
-        category : req.body.category
+        category : req.body.category,
+        image : req.body.image
     });
 
     // Save Note in the database

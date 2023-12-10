@@ -20,11 +20,11 @@ var productSchema = {
         trim: true,
         required: true
     },
-    // productImage : {
-    //     type: String,
-    //     trim: true,
-    //     required: true
-    // },
+    image : {
+        type: String,
+        trim: true,
+        required: true
+    },
     category : {
         type: String,
         trim: true,
