@@ -7,6 +7,8 @@ import { fetchProducts } from '../redux/actions';
 import ProductCards from './ProductCards';
 import Registration from './Registration';
 import Login from './Login';
+import StaticCards from './StaticCards';
+import Catagories from './Catagories';
 
 function Home({ products, fetchProducts }) {
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
@@ -36,6 +38,8 @@ function Home({ products, fetchProducts }) {
         openRegistrationModal={openRegistrationModal}
       />
       <div className="main-content">
+        <StaticCards/>
+        <Catagories />
         <ProductCards products={products} />
       </div>
 
