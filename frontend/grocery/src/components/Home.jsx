@@ -9,8 +9,11 @@ import Cart from './Cart';
 import Login from './Login';
 import StaticCards from './StaticCards';
 import Catagories from './Catagories';
+import RegistrationSuccessOverlay from './RegistrationSuccessOverlay';
+import { clearRegister } from '../redux/actions';
+import { logOut } from '../redux/actions';
 
-function Home({ products, cart, loginDetails}) {
+function Home({ products, cart, loginDetails, registerDetails, clearRegister, logOut}) {
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -35,6 +38,10 @@ function Home({ products, cart, loginDetails}) {
     setIsCartOpen(false);
   }
 
+  const closeRegisterSuccess = () => {
+    clearRegister();
+  }
+
   console.log("products from home", products);
   console.log("cart from home", cart);
 
@@ -46,6 +53,7 @@ function Home({ products, cart, loginDetails}) {
         openCart={openCart}
         count={cart && cart.length}
         loginDetails={loginDetails}
+        logOut={logOut}
       />
       {isCartOpen && <Cart closeCart={closeCart} cart={cart}/> }
       <div className="main-content">
@@ -60,6 +68,8 @@ function Home({ products, cart, loginDetails}) {
         }
       </div>
 
+
+      {Object.keys(registerDetails).length !== 0 && <RegistrationSuccessOverlay onClose={closeRegisterSuccess}/>}
       {isRegistrationModalOpen && <Registration onClose={closeModals} />}
       {isLoginModalOpen && <Login onClose={closeModals} />}
     </div>
@@ -70,10 +80,15 @@ const mapStateToProps = (state) => {
   return {
     products: state.products,
     cart: state.cart,
-    loginDetails: state.loginDetails
+    loginDetails: state.loginDetails,
+    registerDetails: state.registerDetails,
   };
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  clearRegister: () => dispatch(clearRegister()),
+  logOut: () => dispatch(logOut()),
+});
 
 
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

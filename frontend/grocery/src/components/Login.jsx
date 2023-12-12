@@ -18,7 +18,7 @@ const Login = ({ onClose, switchToRegistration, loginReq }) => {
   };
 
   const validateLoginForm = async () => {
-    try {
+    
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(loginEmail)) {
         setError('Please enter a valid email address');
@@ -35,26 +35,14 @@ const Login = ({ onClose, switchToRegistration, loginReq }) => {
         password: loginPassword,
       };
 
-      // Dispatching loginReq action directly
       loginReq(payload);
+      onClose();
 
-      // Simulate an asynchronous API call for authentication
-      const response = { success: false }; // Simulated response
-
-      if (response.success) {
-        onClose();
-      } else {
-        setError('Login failed. Check your email and password.');
-      }
-    } catch (error) {
-      console.error('Login failed:', error.message);
-      setError('Login failed. Check your email and password.');
-    }
   };
 
-  const openRegistrationModal = () => {
+  /*const openRegistrationModal = () => {
     setModalOpen(true);
-  };
+  };*/
 
   return (
     <div className="login-modal">
@@ -76,7 +64,7 @@ const Login = ({ onClose, switchToRegistration, loginReq }) => {
             Login
           </button>
 
-          <div className="not-signed-in-link" onClick={openRegistrationModal}>
+           {/* <div className="not-signed-in-link" onClick={openRegistrationModal}>
             <p>
               Not signed in?{' '}
               <span className="register-link" onClick={switchToRegistration}>
@@ -84,7 +72,7 @@ const Login = ({ onClose, switchToRegistration, loginReq }) => {
               </span>{' '}
               to register.
             </p>
-          </div>
+          </div>*/}
         </form>
       </div>
 

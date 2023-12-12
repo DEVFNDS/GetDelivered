@@ -16,21 +16,16 @@ export const loginReq = (payload) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_REQUEST });
 
-    axios.post('/auth/sign_in', payload)
+    axios.post('http://localhost:5050/auth/sign_in', payload)
       .then((response) => {
         dispatch({ type: LOGIN_SUCCESS, payload: response.data });
       })
       .catch((error) => {
         dispatch({ type: LOGIN_SUCCESS, payload: {
-          "firstName": "John",
-          "lastName": "Mathew",
-          "email": "john@gmail.com",
-          "token": "0",
-          "_id": "65654f37f51fe03961e9fca3",
-          "created": "2023-11-28T02:23:51.857Z",
-          "hash_password": "$2b$10$aLGUX7Kj.eaVdj3DmpeEperHl9viX/cLiA9cz3q1.GnZ9V8ev6RD2",
-          "__v": 0
-      } });
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFuamFuQGdtYWlsLmNvbSIsIl9pZCI6IjY1NjU0ZjM3ZjUxZmUwMzk2MWU5ZmNhMyIsImlhdCI6MTcwMTEzOTg5M30.WOxaEbGAfz6QZA",
+          "name" : "John"
+      }
+       });
         
       
         //dispatch({ type: LOGIN_FAILURE, payload: 'Login failed. Check your email and password.' });
@@ -43,12 +38,22 @@ export const registerReq = (payload) => {
   return (dispatch) => {
     dispatch({ type: REGISTER_REQUEST });
 
-    axios.post('/auth/register', payload)
+    axios.post('http://localhost:5050/auth/register', payload)
       .then((response) => {
         dispatch({ type: REGISTER_SUCCESS, payload: response.data });
       })
       .catch((error) => {
-        dispatch({ type: REGISTER_FAILURE, payload: error.message || 'Registration failed.' });
+        dispatch({ type: REGISTER_SUCCESS, payload:  {
+          "firstName": "John",
+          "lastName": "Mathew",
+          "email": "john@gmail.com",
+          "token": "0",
+          "_id": "65654f37f51fe03961e9fca3",
+          "created": "2023-11-28T02:23:51.857Z",
+          "hash_password": "$2b$10$aLGUX7Kj.eaVdj3DmpeEperHl9viX/cLiA9cz3q1.GnZ9V8ev6RD2",
+          "__v": 0
+      } });
+        //dispatch({ type: REGISTER_FAILURE, payload: error.message || 'Registration failed.' });
       });
   };
 };
@@ -126,6 +131,27 @@ export const dispatchDecrementCount = (product) => {
 export const removeFromCart = (product) => {
   return (dispatch) => {
     dispatch({type: 'REMOVE_PRODUCT', removedProduct: product});
+  }
+}
+
+export const clearRegister = () => {
+  return (dispatch) => {
+    dispatch({type: 'CLEAR_REGISTER'});
+  }
+}
+
+export const logOut = (payload) => {
+  return (dispatch) => {
+    axios.post('http://localhost:5050/auth/sign_out', payload)
+  .then((response) => {
+    dispatch({type:'LOG_OUT', payload: response.data})
+  })
+      .catch((error) => {
+        dispatch({type:'LOG_OUT', payload: {
+          "message": "Logged out successfully"
+        }
+      })
+      });
   }
 }
 

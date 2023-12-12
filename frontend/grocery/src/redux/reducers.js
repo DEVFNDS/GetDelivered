@@ -1,7 +1,8 @@
 const initialState = {
     products: {},
     cart:[],
-    loginDetails:{}
+    loginDetails:{},
+    registerDetails:{}
   };
   
   const rootReducer = (state = initialState, action) => {
@@ -53,6 +54,21 @@ const initialState = {
           return {
             ...state,
             loginDetails: action.payload,
+          };
+        case 'REGISTER_SUCCESS' :
+            return {
+              ...state,
+              registerDetails: action.payload,
+            };
+        case 'CLEAR_REGISTER':
+              return {
+                ...state,
+                registerDetails: {}
+              };
+        case 'LOG_OUT':
+          return {
+            ...state,
+            loginDetails: {}
           };
       default:
         return state;

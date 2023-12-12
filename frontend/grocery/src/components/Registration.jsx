@@ -154,11 +154,11 @@ const Registration = ({ onClose }) => {
               Register
             </button>
           </form>
-          <div className="not-signed-in-link" onClick={() => setIsAuthenticated(true)}>
+          {/*<div className="not-signed-in-link" onClick={() => setIsAuthenticated(true)}>
             <p>
               Already have an account? <span className="register-link">Sign in here</span>.
             </p>
-          </div>
+          </div>*/}
         </div>
       )}
 
