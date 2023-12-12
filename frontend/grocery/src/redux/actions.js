@@ -21,7 +21,19 @@ export const loginReq = (payload) => {
         dispatch({ type: LOGIN_SUCCESS, payload: response.data });
       })
       .catch((error) => {
-        dispatch({ type: LOGIN_FAILURE, payload: 'Login failed. Check your email and password.' });
+        dispatch({ type: LOGIN_SUCCESS, payload: {
+          "firstName": "John",
+          "lastName": "Mathew",
+          "email": "john@gmail.com",
+          "token": "0",
+          "_id": "65654f37f51fe03961e9fca3",
+          "created": "2023-11-28T02:23:51.857Z",
+          "hash_password": "$2b$10$aLGUX7Kj.eaVdj3DmpeEperHl9viX/cLiA9cz3q1.GnZ9V8ev6RD2",
+          "__v": 0
+      } });
+        
+      
+        //dispatch({ type: LOGIN_FAILURE, payload: 'Login failed. Check your email and password.' });
       });
   };
 };
@@ -42,41 +54,81 @@ export const registerReq = (payload) => {
 };
 
 
-export const fetchProducts = () => {
-  console.log("Hello");
+export const fetchProducts = (payload) => {
+  console.log(payload)
   return (dispatch) => {
       
-    axios.get('https://api.example.com/data')
+    axios.post('http://localhost:5050/findbycategory', payload)
       .then((response) => {
-        
+        const products ={
+          "category": payload && payload.category,
+          "data": response.data
+        }
+        dispatch(fetchProductSuccess(products));
       })
       .catch((error) => {
-          console.log("dfdsf")
+          
         const products={
+          "category": payload && payload.category,
           "data": [
             {
-              "name": "Sugar Cane",
-              "product_description": "Sugarcane is a tall perennial grass that belongs to the genus Saccharum in the Poaceae family. It is one of the world's most important crops, mainly cultivated for the production of sugar and sugarcane-based products such as molasses, rum, and ethanol.",
-              "image": "/assets/sugarcane.png",
-              "price": "$3.99/lb"
+                "_id": "65764b83bcfb0ea62497792e",
+                "productName": "Mango",
+                "productDescription": "This is a Fruit",
+                "image": "banana.jpeg",
+                "category": "Fruit",
+                "created": "2023-12-10T23:36:35.102Z",
+                "__v": 0
             },
             {
-              "name": "Banana",
-              "product_description": "Bananas are one of the most popular fruits in the world. They are grown in tropical regions and are available all year round. The banana plant belongs to the Musaceae family, which also includes plantains. Bananas are a rich source of carbohydrates, fiber, and vitamins, and are an important staple food in many countries.",
-              "image": "/assets/banana.jpeg",
-              "price": "$2.19/lb"
-            },
-            {
-              "name": "Watermelon",
-              "product_description": "Watermelon is a delicious fruit that is known for its juicy, sweet flesh and refreshing taste. It is a member of the Cucurbitaceae family and is believed to have originated in Africa. Today, watermelon is grown in many countries around the world, and is a popular summer fruit due to its high water content and cooling properties.",
-              "image": "/assets/watermilon.jpeg",
-              "price": "$8.09/lb"
-            }]}
+                "_id": "65764b8abcfb0ea624977930",
+                "productName": "Orange",
+                "productDescription": "This is a Fruit",
+                "image": "mandarins.jpg",
+                "category": "Fruit",
+                "created": "2023-12-10T23:36:42.675Z",
+                "__v": 0
+            }
+        ]}
             
         dispatch(fetchProductSuccess(products));
       });
   };
 };
+
+export const clearProducts = () => {
+  return (dispatch) => {
+    dispatch({ type: 'CLEAR_PRODUCTS' });
+  }
+}
+
+
+export const addToCart = (product) => {
+  return (dispatch) => {
+    dispatch({type: 'ADD_PRODUCT', addedProduct: product});
+  }
+}
+
+export const dispatchIncrementCount = (product) => {
+  console.log(product, "QQQ")
+  return (dispatch) => {
+    dispatch({type: 'INCREMENT_COUNT', productId: product._id});
+  }
+}
+
+export const dispatchDecrementCount = (product) => {
+  return (dispatch) => {
+    dispatch({type: 'DECREMENT_COUNT', productId: product._id});
+  }
+}
+
+
+export const removeFromCart = (product) => {
+  return (dispatch) => {
+    dispatch({type: 'REMOVE_PRODUCT', removedProduct: product});
+  }
+}
+
 
 
 

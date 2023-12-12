@@ -1,26 +1,68 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { clearProducts } from '../redux/actions';
+import { addToCart } from '../redux/actions';
+import { dispatchDecrementCount } from '../redux/actions';
+import { dispatchIncrementCount } from '../redux/actions';
+import { removeFromCart } from '../redux/actions';
+const ProductCards = ({ products, clearProducts, addToCart, cart, dispatchIncrementCount,  dispatchDecrementCount, removeFromCart}) => {
 
-const ProductCards = ({ products }) => {
-    console.log(products)
+    const showCategories = () => {
+        clearProducts();
+    }
+    const onAddToCart = (product) => {
+        product.count = 1;
+        addToCart(product);
+    }
+    const incrementCount = (product) => {
+        console.log(product, "DGDFG")
+        dispatchIncrementCount(product);
+    }
+    const decrementCount = (product) => {
+        if(cart.find((item)=> (item._id=== product._id)).count === 1) {
+            removeFromCart(product);
+        } else {
+            dispatchDecrementCount(product);
+        }
+    }
   return (
-    <>
-        <h3 className="product-header">Often bought by you</h3>
-        <div className="product-container">
-            
+    <div className="product-cards">
+        <span className="back-categories" onClick={showCategories}><i className="fa fa-arrow-left" aria-hidden="true"></i> Catagories</span>
+        <h3 className="product-header">{products.category}</h3>
+        <div className="product-container">  
             {products && products.data && products.data.map((product) => (
                 <div key={product.name} className="card">
-                <img src={product.image} alt={product.name} className="card-img-top" />
-                <div className="card-body">
-                    <h5 className="card-title">{product.name}</h5>
-                    <p className="card-text">{product.product_description}</p>
-                    <p className="card-text">{product.price}</p>
-                </div>
+                    <img src={"/assets/" + product.image} alt={product.name} className="card-img-top" />
+                    <div className="card-body">
+                        <h5 className="card-title">{product.productName}</h5>
+                        <p className="card-text">{product.productDescription}</p>
+                        <p className="card-text">{product.price}</p>
+                    </div>
+                    {cart && cart.find((item)=> (item._id=== product._id)) ?
+                        
+                        <div className="quantity">
+                            <button onClick={() => decrementCount(product)}  className="card-add-to-cart decrement">-</button>
+                            <span >{cart.find((item)=> (item._id=== product._id)).count}</span>
+                            <button onClick={() => incrementCount(product)} className="card-add-to-cart increment">+</button>
+                        </div> :
+                        <button onClick={() => onAddToCart(product)} className="add-to-cart">Add to cart</button>
+                     }
+                    
                 </div>
             ))}
         </div>
-    </>
-    
-  );
+    </div>    
+  ); 
 };
 
-export default ProductCards;
+
+
+const mapDispatchToProps = (dispatch) => ({
+    clearProducts: () => dispatch(clearProducts()),
+    addToCart: (product) => dispatch(addToCart(product)),
+    dispatchIncrementCount: (product) => dispatch(dispatchIncrementCount(product)),
+    dispatchDecrementCount: (product) => dispatch(dispatchDecrementCount(product)),
+    removeFromCart: (product) => dispatch(removeFromCart(product)),
+  });
+  
+  export default connect(null, mapDispatchToProps)(ProductCards);

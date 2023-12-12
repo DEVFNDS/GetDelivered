@@ -1,18 +1,19 @@
 // Home.jsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Header from './Header';
-import { fetchProducts } from '../redux/actions';
 import ProductCards from './ProductCards';
 import Registration from './Registration';
+import Cart from './Cart';
 import Login from './Login';
 import StaticCards from './StaticCards';
 import Catagories from './Catagories';
 
-function Home({ products, fetchProducts }) {
+function Home({ products, cart, loginDetails}) {
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const openRegistrationModal = () => {
     setIsRegistrationModalOpen(true);
@@ -27,20 +28,36 @@ function Home({ products, fetchProducts }) {
     setIsLoginModalOpen(false);
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+  const openCart = () => {
+    setIsCartOpen(true);
+  }
+  const closeCart = () => {
+    setIsCartOpen(false);
+  }
+
+  console.log("products from home", products);
+  console.log("cart from home", cart);
 
   return (
     <div>
       <Header
         openLoginModal={openLoginModal}
         openRegistrationModal={openRegistrationModal}
+        openCart={openCart}
+        count={cart && cart.length}
+        loginDetails={loginDetails}
       />
+      {isCartOpen && <Cart closeCart={closeCart} cart={cart}/> }
       <div className="main-content">
-        <StaticCards/>
-        <Catagories />
-        <ProductCards products={products} />
+        {Object.keys(products).length === 0 &&
+          <>
+            <StaticCards/>
+            <Catagories />
+          </>
+        }
+        {products && products.data && 
+          <ProductCards products={products} cart={cart} />
+        }
       </div>
 
       {isRegistrationModalOpen && <Registration onClose={closeModals} />}
@@ -52,11 +69,11 @@ function Home({ products, fetchProducts }) {
 const mapStateToProps = (state) => {
   return {
     products: state.products,
+    cart: state.cart,
+    loginDetails: state.loginDetails
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchProducts: () => dispatch(fetchProducts()),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+export default connect(mapStateToProps, null)(Home);

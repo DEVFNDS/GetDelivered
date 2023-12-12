@@ -1,10 +1,12 @@
 // app.js
 const connectDB = require('../src/db/db.js'); // Adjust the path accordingly
 const product = require('./models/productModel.js');
+const cors = require('cors');
 
 var express = require('express'),
   app = express(),
-  port = process.env.PORT || 3000
+  port = process.env.PORT || 5050
+  app.use(cors());
 
 
 User = require('./models/userModel.js'),
@@ -38,7 +40,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Specify the destination folder
+    cb(null, '../../frontend/grocery/public/assets'); // Specify the destination folder
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
