@@ -28,7 +28,7 @@ exports.sign_in = async function(req, res) {
   
     var tokenValue = jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') ;
     await User.findOneAndUpdate({ email :  req.body.email }, { token: tokenValue });
-    res.json({ token: tokenValue });
+    res.json({ token: tokenValue ,email: user.email,name: user.fullName});
   
   });
 };
