@@ -21,17 +21,19 @@ export const loginReq = (payload) => {
         dispatch({ type: LOGIN_SUCCESS, payload: response.data });
       })
       .catch((error) => {
-        dispatch({ type: LOGIN_SUCCESS, payload: {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFuamFuQGdtYWlsLmNvbSIsIl9pZCI6IjY1NjU0ZjM3ZjUxZmUwMzk2MWU5ZmNhMyIsImlhdCI6MTcwMTEzOTg5M30.WOxaEbGAfz6QZA",
-          "name" : "John"
-      }
-       });
+        dispatch({ type: LOGIN_FAILURE, payload: true});
         
       
         //dispatch({ type: LOGIN_FAILURE, payload: 'Login failed. Check your email and password.' });
       });
   };
 };
+
+export const loginFailureClose = () => {
+  return (dispatch) => {
+  dispatch({ type: LOGIN_FAILURE, payload: false});
+  }
+}
 
 // Registration actions
 export const registerReq = (payload) => {

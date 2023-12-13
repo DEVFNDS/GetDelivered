@@ -35,7 +35,7 @@ const AdminProductList = ({fetchProducts, products, deleteProductApi}) => {
 
 
   return (
-    <div className="">
+    <div className="admin-container">
      { addProductOverlay &&
         <AddProduct category={selectedCategory} editProduct={editedProduct} onClose={() => {setEditedProduct({}); setaddProductOverlay(false)}}/>
      } 

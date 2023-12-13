@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { removeFromCart } from '../redux/actions';
 
-const Cart = ({closeCart, cart, removeFromCart}) => {
+const Cart = ({closeCart, cart, removeFromCart, checkout}) => {
   const handleCloseCart = () => {
     closeCart();
   }
@@ -26,7 +26,7 @@ const Cart = ({closeCart, cart, removeFromCart}) => {
         }
         
       </div>
-      <div className="checkout">Proceed to Checkout &nbsp;&nbsp; &nbsp;<i className="fa-solid fa-arrow-right fa-beat"></i></div>
+      <div onClick={checkout} className="checkout">Proceed to Checkout &nbsp;&nbsp; &nbsp;<i className="fa-solid fa-arrow-right fa-beat"></i></div>
     </div>
   );
 };

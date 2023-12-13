@@ -12,11 +12,15 @@ import Catagories from './Catagories';
 import RegistrationSuccessOverlay from './RegistrationSuccessOverlay';
 import { clearRegister } from '../redux/actions';
 import { logOut } from '../redux/actions';
+import CheckoutPage from './checkout';
+import LoginFailure from './LoginFailure';
+import { loginFailureClose } from '../redux/actions';
 
-function Home({ products, cart, loginDetails, registerDetails, clearRegister, logOut}) {
+function Home({ products, cart, loginDetails, registerDetails, clearRegister, logOut, loginFailureClose, loginFailure}) {
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [checkout, setcheckout] = useState(false);
 
   const openRegistrationModal = () => {
     setIsRegistrationModalOpen(true);
@@ -53,25 +57,34 @@ function Home({ products, cart, loginDetails, registerDetails, clearRegister, lo
         openCart={openCart}
         count={cart && cart.length}
         loginDetails={loginDetails}
-        logOut={logOut}
+        logOut={() => { setcheckout(false); logOut(); setIsCartOpen(false);}}
       />
-      {isCartOpen && <Cart closeCart={closeCart} cart={cart}/> }
-      <div className="main-content">
-        {Object.keys(products).length === 0 &&
-          <>
-            <StaticCards/>
-            <Catagories />
-          </>
-        }
-        {products && products.data && 
-          <ProductCards products={products} cart={cart} loginDetails={loginDetails}/>
-        }
-      </div>
+      {!checkout &&
+        <>
+          {isCartOpen && <Cart closeCart={closeCart} cart={cart} checkout={() => setcheckout(true)}/> }
+          <div className="main-content">
+            {Object.keys(products).length === 0 &&
+              <>
+                <StaticCards/>
+                <Catagories />
+              </>
+            }
+            {products && products.data && 
+              <ProductCards products={products} cart={cart} loginDetails={loginDetails}/>
+            }
+          </div>
+        </>
+      }
+      {checkout &&
+        <CheckoutPage cart={cart} onClose={() => {setcheckout(false); setIsCartOpen(false);}}/>
+      }
+      
 
 
       {Object.keys(registerDetails).length !== 0 && <RegistrationSuccessOverlay onClose={closeRegisterSuccess}/>}
       {isRegistrationModalOpen && <Registration onClose={closeModals} />}
       {isLoginModalOpen && <Login onClose={closeModals} />}
+      {loginFailure && <LoginFailure onClose={() => loginFailureClose()}/>}
     </div>
   );
 }
@@ -82,12 +95,14 @@ const mapStateToProps = (state) => {
     cart: state.cart,
     loginDetails: state.loginDetails,
     registerDetails: state.registerDetails,
+    loginFailure: state.loginFailure
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   clearRegister: () => dispatch(clearRegister()),
   logOut: () => dispatch(logOut()),
+  loginFailureClose: () => dispatch(loginFailureClose()),
 });
 
 
