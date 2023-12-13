@@ -54,7 +54,8 @@ exports.findByCategory = (req,res) => {
 
 // Find a single product with a productId
 exports.findOne = (req, res) => {
-    product.findById(req.params.productId)
+    console.log(req.params.productId);
+    product.findById(req.body.productId)
     .then(product => {
         if(!product) {
             return res.status(404).send({
@@ -77,24 +78,19 @@ exports.findOne = (req, res) => {
 // Update a note identified by the noteId in the request
 exports.update = (req, res) => {
     // Validate Request
-    if(!req.body.content) {
+    if(!req.body) {
         return res.status(400).send({
             message: "Note content can not be empty"
         });
     }
 
-     // Create a product
-    const product = new product({
-        productName: req.body.productName || "Untitled productName", 
-        productDescription: req.body.productDescription,
-        category : req.body.category
-    });
 
     // Find note and update it with the request body
-    product.findByIdAndUpdate(req.params.noteId, {
+    product.findByIdAndUpdate(req.body.productId, {
         productName: req.body.productName || "Untitled productName", 
         productDescription: req.body.productDescription,
-        category : req.body.category
+        category : req.body.category,
+        image : req.body.image
     }, {new: true})
     .then(product => {
         if(!product) {
