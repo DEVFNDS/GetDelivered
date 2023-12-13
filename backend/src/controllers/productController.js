@@ -110,3 +110,33 @@ exports.update = (req, res) => {
         });
     });
 };
+
+
+exports.delete = (req, res) => {
+
+    if(!req.body) {
+        return res.status(400).send({
+            message: "Product  content can not be empty"
+        });
+    }
+
+    product.findByIdAndDelete(req.body.productId)
+    .then(product => {
+        if(!product) {
+            return res.status(404).send({
+                message: "Note not found with id " + req.params.productId
+            });
+        }
+        res.send(product);
+    }).catch(err => {
+        if(err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Note not found with id " + req.params.productId
+            });                
+        }
+        return res.status(500).send({
+            message: "Error updating note with id " + req.params.productId
+        });
+    });
+
+};

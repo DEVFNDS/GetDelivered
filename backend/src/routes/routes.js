@@ -23,4 +23,5 @@ module.exports = function(app) {
 
     app.post('/update',product.update);
 
+    app.post('/delete',product.delete);
 };
