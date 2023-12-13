@@ -163,3 +163,81 @@ export const fetchProductSuccess = (data) => ({
   type: 'FETCH_PRODUCT_SUCCESS',
   payload: data,
 });
+
+
+export const addProductSubmit = (productData,image) => {
+  return (dispatch) => {
+    
+    axios.post('http://localhost:5050/upload', image)
+      .then((response) => {
+        return response.data;
+      })
+      .then((data)=> {
+        productData.image = data
+        axios.post('http://localhost:5050/products', productData)
+          .then((response) => {
+            const payload = {
+              "category": response && response.data && response.data.category
+            }
+            dispatch(fetchProducts(payload));
+            return response.data;
+          })
+      })
+      .catch((error) => {
+        
+      });
+  };
+};
+
+
+export const editProductSubmit = (productData,image) => {
+  return (dispatch) => {
+    if(image) {
+      axios.post('http://localhost:5050/upload', image)
+      .then((response) => {
+        return response.data;
+      })
+      .then((data)=> {
+        productData.image = data
+        axios.post('http://localhost:5050/update', productData)
+          .then((response) => {
+            const payload = {
+              "category": response && response.data && response.data.category
+            }
+            dispatch(fetchProducts(payload));
+            return response.data;
+          })
+      })
+      .catch((error) => {
+        
+      });
+    } else {
+      axios.post('http://localhost:5050/update', productData)
+          .then((response) => {
+            const payload = {
+              "category": response && response.data && response.data.category
+            }
+            dispatch(fetchProducts(payload));
+            return response.data;
+          })
+
+    }
+    
+  };
+};
+
+
+
+export const deleteProductApi = (productData) => {
+  return (dispatch) => {
+    
+    axios.post('http://localhost:5050/delete', {"productId": productData._id})
+          .then((response) => {
+            const payload = {
+              "category": response && response.data && response.data.category
+            }
+            dispatch(fetchProducts(payload));
+            return response.data;
+          })
+  };
+};

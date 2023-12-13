@@ -68,7 +68,8 @@ const initialState = {
         case 'LOG_OUT':
           return {
             ...state,
-            loginDetails: {}
+            loginDetails: {},
+            cart: []
           };
       default:
         return state;

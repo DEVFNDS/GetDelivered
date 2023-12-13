@@ -1,18 +1,25 @@
-import React from 'react';
+import React , { useState }from 'react';
 import { connect } from 'react-redux';
 import { clearProducts } from '../redux/actions';
 import { addToCart } from '../redux/actions';
 import { dispatchDecrementCount } from '../redux/actions';
 import { dispatchIncrementCount } from '../redux/actions';
 import { removeFromCart } from '../redux/actions';
-const ProductCards = ({ products, clearProducts, addToCart, cart, dispatchIncrementCount,  dispatchDecrementCount, removeFromCart}) => {
+import LoginWarning from './LoginWarning';
+const ProductCards = ({ products, clearProducts, addToCart, cart, dispatchIncrementCount,  dispatchDecrementCount, removeFromCart, loginDetails}) => {
 
     const showCategories = () => {
         clearProducts();
     }
+    const [loginWarning, setLoginWarning] = useState(false);
     const onAddToCart = (product) => {
-        product.count = 1;
-        addToCart(product);
+        if(Object.keys(loginDetails).length === 0) {
+            setLoginWarning(true);
+        } else {
+            product.count = 1;
+            addToCart(product);
+        }
+        
     }
     const incrementCount = (product) => {
         console.log(product, "DGDFG")
@@ -26,6 +33,8 @@ const ProductCards = ({ products, clearProducts, addToCart, cart, dispatchIncrem
         }
     }
   return (
+    <>
+    {loginWarning && <LoginWarning onClose={() => {setLoginWarning(false)}}/>}
     <div className="product-cards">
         <span className="back-categories" onClick={showCategories}><i className="fa fa-arrow-left" aria-hidden="true"></i> Catagories</span>
         <h3 className="product-header">{products.category}</h3>
@@ -51,7 +60,8 @@ const ProductCards = ({ products, clearProducts, addToCart, cart, dispatchIncrem
                 </div>
             ))}
         </div>
-    </div>    
+    </div> 
+    </>   
   ); 
 };
 

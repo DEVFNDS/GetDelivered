@@ -13,17 +13,17 @@ export default function Header({ openLoginModal, openRegistrationModal,openCart,
             </div>
       {Object.keys(loginDetails).length !== 0 && 
         <div className="navbar-login-register">
-          <a href="!#" className="login-header" onClick={logOut}>
+          <a href="!#" className="login-header" onClick={(e) => {e.preventDefault(); logOut();}}>
             Logout
           </a>
         </div>
       }
       {Object.keys(loginDetails).length === 0 && 
         <div className="navbar-login-register">
-          <a href="!#" className="login-header" onClick={openLoginModal}>
+          <a href="!#" className="login-header" onClick={(e) => {e.preventDefault(); openLoginModal();}}>
             Login
           </a>
-          <a href="!#" className="login-header" onClick={openRegistrationModal}>
+          <a href="!#" className="login-header" onClick={(e) => {e.preventDefault(); openRegistrationModal();}}>
             Register
           </a>
         </div>

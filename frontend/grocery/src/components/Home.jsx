@@ -64,7 +64,7 @@ function Home({ products, cart, loginDetails, registerDetails, clearRegister, lo
           </>
         }
         {products && products.data && 
-          <ProductCards products={products} cart={cart} />
+          <ProductCards products={products} cart={cart} loginDetails={loginDetails}/>
         }
       </div>
 
