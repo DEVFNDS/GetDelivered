@@ -9,6 +9,7 @@ const AddProduct = ({ onClose, addProductSubmit, category, editProduct, editProd
     productName: '',
     productDescription: '',
     image: null,
+    price: ''
   });
 
   useEffect(() => {
@@ -17,6 +18,7 @@ const AddProduct = ({ onClose, addProductSubmit, category, editProduct, editProd
         
           "productName": editProduct.productName,
           "productDescription": editProduct.productDescription,
+          "price": editProduct.price
         
       }
       
@@ -50,6 +52,7 @@ const AddProduct = ({ onClose, addProductSubmit, category, editProduct, editProd
         const formInfoToSend = {
           "productId": editProduct._id,
           "productName": formData.productName,
+          "price": formData.price,
           "productDescription": formData.productDescription,
           "category": category
         }
@@ -59,6 +62,7 @@ const AddProduct = ({ onClose, addProductSubmit, category, editProduct, editProd
         const formInfoToSend = {
           "productId": editProduct._id,
           "productName": formData.productName,
+          "price": formData.price,
           "productDescription": formData.productDescription,
           "category": category,
           "image": editProduct.image
@@ -71,6 +75,7 @@ const AddProduct = ({ onClose, addProductSubmit, category, editProduct, editProd
       formImageToSend.append('image', formData.image);
       const formInfoToSend = {
           "productName": formData.productName,
+          "price": formData.price,
           "productDescription": formData.productDescription,
           "category": category
       }
@@ -101,6 +106,15 @@ const AddProduct = ({ onClose, addProductSubmit, category, editProduct, editProd
               type="text"
               name="productDescription"
               value={formData.productDescription}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Price:
+            <input
+              type="text"
+              name="price"
+              value={formData.price}
               onChange={handleChange}
             />
           </label>

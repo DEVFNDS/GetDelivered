@@ -143,6 +143,10 @@ const CheckoutPage = ({cart, onClose}) => {
       console.log('Placing order...');
     }
   };
+  let totalPrice = 0;
+  cart.forEach((item) => {
+      totalPrice += parseFloat(item && item.price) * item.count;
+  })
   return (
     
     <div className="checkout-container">
@@ -389,6 +393,7 @@ const CheckoutPage = ({cart, onClose}) => {
             <img src={"/assets/" + product.image} alt={product.productName} />
             <div className="product-count">{product.count}</div>
             <h3>{product.productName}</h3>
+            <h3>${product.price}</h3>
                     </div>
         ))}
         {cart && cart.length === 0 &&
@@ -396,6 +401,8 @@ const CheckoutPage = ({cart, onClose}) => {
         }
         
       </div>
+
+      <h3>Total Price: ${totalPrice}</h3>
 
         {/* Payment Details */}
         <h3>Payment Details</h3>

@@ -71,6 +71,7 @@ const AdminProductList = ({fetchProducts, products, deleteProductApi}) => {
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Price</th>
             <th>Image</th>
             <th>Category</th>
             <th>Created</th>
@@ -83,6 +84,7 @@ const AdminProductList = ({fetchProducts, products, deleteProductApi}) => {
               <td>{product._id}</td>
               <td>{product.productName}</td>
               <td>{product.productDescription}</td>
+              <td>{product.price}</td>
               <td>
                 <img src={`/assets/${product.image}`} alt={product.productName} className="product-image" />
               </td>

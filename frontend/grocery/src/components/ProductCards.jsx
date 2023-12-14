@@ -45,7 +45,7 @@ const ProductCards = ({ products, clearProducts, addToCart, cart, dispatchIncrem
                     <div className="card-body">
                         <h5 className="card-title">{product.productName}</h5>
                         <p className="card-text">{product.productDescription}</p>
-                        <p className="card-text">{product.price}</p>
+                        <p className="card-text">${product.price}</p>
                     </div>
                     {cart && cart.find((item)=> (item._id=== product._id)) ?
                         
