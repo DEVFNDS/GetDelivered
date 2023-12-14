@@ -1,6 +1,7 @@
 'use strict';
 
 const product = require('../controllers/productController.js')
+const profile = require('../controllers/profileController.js')
 
 module.exports = function(app) {
     var userHandlers = require('../controllers/userController.js');
@@ -24,4 +25,9 @@ module.exports = function(app) {
     app.post('/update',product.update);
 
     app.post('/delete',product.delete);
+
+    // profile api's
+    app.post('/createorder',profile.create)
+    
+    app.post('/getorder',profile.findByUser)
 };

@@ -23,7 +23,7 @@ var UserSchema = new Schema({
     unique: true,
     lowercase: true,
     trim: true,
-    required: true
+    required: true,
   },
   hash_password: {
     type: String
