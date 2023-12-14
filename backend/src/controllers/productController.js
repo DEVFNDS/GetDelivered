@@ -25,7 +25,8 @@ exports.create = async (req,res,next) => {
         productName: req.body.productName || "Untitled productName", 
         productDescription: req.body.productDescription,
         category : req.body.category,
-        image : req.body.image
+        image : req.body.image,
+        price : req.body.price
     });
 
     // Save Note in the database
@@ -90,7 +91,8 @@ exports.update = (req, res) => {
         productName: req.body.productName || "Untitled productName", 
         productDescription: req.body.productDescription,
         category : req.body.category,
-        image : req.body.image
+        image : req.body.image,
+        price : req.body.price
     }, {new: true})
     .then(product => {
         if(!product) {

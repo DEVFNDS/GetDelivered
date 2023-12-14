@@ -20,6 +20,10 @@ var productSchema = {
         trim: true,
         required: true
     },
+    price : {
+        type : String,
+        required :true
+    },
     image : {
         type: String,
         trim: true,
