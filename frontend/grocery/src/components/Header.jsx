@@ -1,5 +1,5 @@
 
-export default function Header({ openLoginModal, openRegistrationModal,openCart, count, loginDetails, logOut}) {
+export default function Header({ openLoginModal, openRegistrationModal,openCart, count, loginDetails, logOut, openOrders}) {
   return (
     <nav className="navbar">
       <img  className="logo" src="\assets\logo.png" alt=""/>    
@@ -7,14 +7,14 @@ export default function Header({ openLoginModal, openRegistrationModal,openCart,
                 <input type="text" placeholder="Search for products"/>
                 <button type="submit"><i className="fas fa-search"></i></button>
             </div>
-            <div className="navbar-delivery">
-                <a href="!#"><i className="fas fa-car"></i></a>
-                <span>Delivery to L5R1R1</span>
-            </div>
+            
             {Object.keys(loginDetails).length !== 0 ?
         (
           <div className="navbar-login-register">
-            <span className="user-name">{loginDetails.name}</span>
+            <span className="user-name">Welcome {loginDetails.name},</span>
+            <a href="!#" className="login-header" onClick={(e) => { e.preventDefault(); openOrders(); }}>
+             Your Orders
+            </a>
             <a href="!#" className="login-header" onClick={(e) => { e.preventDefault(); logOut(); }}>
               Logout
             </a>
