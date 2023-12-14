@@ -11,23 +11,26 @@ export default function Header({ openLoginModal, openRegistrationModal,openCart,
                 <a href="!#"><i className="fas fa-car"></i></a>
                 <span>Delivery to L5R1R1</span>
             </div>
-      {Object.keys(loginDetails).length !== 0 && 
-        <div className="navbar-login-register">
-          <a href="!#" className="login-header" onClick={(e) => {e.preventDefault(); logOut();}}>
-            Logout
-          </a>
-        </div>
+            {Object.keys(loginDetails).length !== 0 ?
+        (
+          <div className="navbar-login-register">
+            <span className="user-name">{loginDetails.name}</span>
+            <a href="!#" className="login-header" onClick={(e) => { e.preventDefault(); logOut(); }}>
+              Logout
+            </a>
+          </div>
+        ) : (
+          <div className="navbar-login-register">
+            <a href="!#" className="login-header" onClick={(e) => { e.preventDefault(); openLoginModal(); }}>
+              Login
+            </a>
+            <a href="!#" className="login-header" onClick={(e) => { e.preventDefault(); openRegistrationModal(); }}>
+              Register
+            </a>
+          </div>
+        )
       }
-      {Object.keys(loginDetails).length === 0 && 
-        <div className="navbar-login-register">
-          <a href="!#" className="login-header" onClick={(e) => {e.preventDefault(); openLoginModal();}}>
-            Login
-          </a>
-          <a href="!#" className="login-header" onClick={(e) => {e.preventDefault(); openRegistrationModal();}}>
-            Register
-          </a>
-        </div>
-      }
+
       
       <div onClick={openCart} className="navbar-cart">
                 <button ><i className="fas fa-shopping-cart"></i></button>

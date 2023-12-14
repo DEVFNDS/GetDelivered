@@ -47,7 +47,7 @@ const Login = ({ onClose, switchToRegistration, loginReq }) => {
   return (
     <div className="login-modal">
       <div className="login-form-container">
-        <span className="close-icon" onClick={onClose}>
+        <span className="close-icon-login" onClick={onClose}>
           &times;
         </span>
 

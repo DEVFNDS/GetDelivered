@@ -12,7 +12,7 @@ exports.register = function(req, res) {
   .then(data => {
     res.send(data);
 }).catch(err => {
-    res.status(500).send({
+    res.status(409).send({
         message: err.message || "Some error occurred while creating the user."
     });
 });
@@ -28,7 +28,7 @@ exports.sign_in = async function(req, res) {
   
     var tokenValue = jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') ;
     await User.findOneAndUpdate({ email :  req.body.email }, { token: tokenValue });
-    res.json({ token: tokenValue ,email: user.email,name: user.fullName});
+    res.json({ token: tokenValue ,email: user.email,name: user.firstName});
   
   });
 };

@@ -13,11 +13,12 @@
   .close-icon {
     position: absolute;
     margin-left: 235px;
-    margin-bottom: 575px;
+    margin-bottom: 543px;
     font-size: 1.5rem;
     cursor: pointer;
     
   }
+ 
   .registration-form-container {
     max-width: 400px;
     padding: 20px;
@@ -71,11 +72,13 @@
   align-items: center;
   z-index: 1000;
 
-  .close-icon {
+  .close-icon-login {
     position: absolute;
-    margin-left: 235px;
+    margin-left: 170px;
+    
     font-size: 1.5rem;
     cursor: pointer;
+    
   }
 
   .login-form-container {
