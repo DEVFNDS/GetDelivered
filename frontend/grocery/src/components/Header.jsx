@@ -12,6 +12,12 @@ export default function Header({ openLoginModal, openRegistrationModal,openCart,
         (
           <div className="navbar-login-register">
             <span className="user-name">Welcome {loginDetails.name},</span>
+            {loginDetails.name === "Admin" &&
+              <a href="/Admin" className="login-header">
+                Admin
+              </a>
+            }
+            
             <a href="!#" className="login-header" onClick={(e) => { e.preventDefault(); openOrders(); }}>
              Your Orders
             </a>
