@@ -45,17 +45,8 @@ export const registerReq = (payload) => {
         dispatch({ type: REGISTER_SUCCESS, payload: response.data });
       })
       .catch((error) => {
-        dispatch({ type: REGISTER_SUCCESS, payload:  {
-          "firstName": "John",
-          "lastName": "Mathew",
-          "email": "john@gmail.com",
-          "token": "0",
-          "_id": "65654f37f51fe03961e9fca3",
-          "created": "2023-11-28T02:23:51.857Z",
-          "hash_password": "$2b$10$aLGUX7Kj.eaVdj3DmpeEperHl9viX/cLiA9cz3q1.GnZ9V8ev6RD2",
-          "__v": 0
-      } });
-        //dispatch({ type: REGISTER_FAILURE, payload: error.message || 'Registration failed.' });
+        
+        dispatch({ type: REGISTER_SUCCESS, payload: {"error": true} });
       });
   };
 };
@@ -158,6 +149,16 @@ export const logOut = (payload) => {
 }
 
 
+export const fetchOrders = (payload) => {
+  return (dispatch) => {
+    axios.post('http://localhost:5050/getorder', payload)
+  .then((response) => {
+    dispatch({type:'ORDER_LIST', payload: response.data})
+  })
+  }
+}
+
+
 
 
 
@@ -243,3 +244,21 @@ export const deleteProductApi = (productData) => {
           })
   };
 };
+
+export const submitOrder = (payload) => {
+
+  return (dispatch) => {
+    
+    axios.post('http://localhost:5050/createorder', payload)
+          .then((response) => {
+            console.log(response);
+            dispatch({type: 'SUBMIT_SUCCESS', payload: true});
+          })
+          
+  };
+};
+
+export const submitSuccessClose = (data) => ({
+  type: 'SUBMIT_SUCCESS',
+  payload: false
+});

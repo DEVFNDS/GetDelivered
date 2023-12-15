@@ -39,3 +39,28 @@
   .prev {
     left: -30px;
   }
+
+ 
+.orders-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px 0;
+  
+}
+.order-main {
+  padding: 100px 80px;
+  .product-header {
+    padding-top: 40px;
+  }
+}
+
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+

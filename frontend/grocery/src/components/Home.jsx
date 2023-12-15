@@ -15,12 +15,17 @@ import { logOut } from '../redux/actions';
 import CheckoutPage from './checkout';
 import LoginFailure from './LoginFailure';
 import { loginFailureClose } from '../redux/actions';
+import SubmitSuccess from './SubmitSuccess';
+import { submitSuccessClose } from '../redux/actions';
+import Orders from './Orders';
+import { fetchOrders } from '../redux/actions';
 
-function Home({ products, cart, loginDetails, registerDetails, clearRegister, logOut, loginFailureClose, loginFailure}) {
+function Home({ products, cart, loginDetails, registerDetails, clearRegister, logOut, loginFailureClose,fetchOrders, orderList, loginFailure, submitSuccessClose, submitSuccess}) {
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [checkout, setcheckout] = useState(false);
+  const [orders, setOrders] = useState(false)
 
   const openRegistrationModal = () => {
     setIsRegistrationModalOpen(true);
@@ -57,9 +62,10 @@ function Home({ products, cart, loginDetails, registerDetails, clearRegister, lo
         openCart={openCart}
         count={cart && cart.length}
         loginDetails={loginDetails}
-        logOut={() => { setcheckout(false); logOut(); setIsCartOpen(false);}}
+        logOut={() => { setcheckout(false); setOrders(false); logOut(); setIsCartOpen(false);}}
+        openOrders={() => {setOrders(true);  const payload= {"userId":loginDetails._id}; fetchOrders(payload) }}
       />
-      {!checkout &&
+      {!checkout && ! orders &&
         <>
           {isCartOpen && <Cart closeCart={closeCart} cart={cart} checkout={() => setcheckout(true)}/> }
           <div className="main-content">
@@ -76,15 +82,20 @@ function Home({ products, cart, loginDetails, registerDetails, clearRegister, lo
         </>
       }
       {checkout &&
-        <CheckoutPage cart={cart} onClose={() => {setcheckout(false); setIsCartOpen(false);}}/>
+        <CheckoutPage cart={cart} loginDetails={loginDetails}  onClose={() => {setcheckout(false); setIsCartOpen(false);}}/>
+      }
+      {orders &&
+          <Orders orders={orderList} onClose={() => setOrders(false)}/>
+
       }
       
 
 
-      {Object.keys(registerDetails).length !== 0 && <RegistrationSuccessOverlay onClose={closeRegisterSuccess}/>}
+      {Object.keys(registerDetails).length !== 0 && <RegistrationSuccessOverlay registerDetails={registerDetails} onClose={closeRegisterSuccess}/>}
       {isRegistrationModalOpen && <Registration onClose={closeModals} />}
       {isLoginModalOpen && <Login onClose={closeModals} />}
       {loginFailure && <LoginFailure onClose={() => loginFailureClose()}/>}
+      {submitSuccess && <SubmitSuccess onClose={() => {submitSuccessClose(); setcheckout(false); setIsCartOpen(false); }}/>}
     </div>
   );
 }
@@ -95,7 +106,9 @@ const mapStateToProps = (state) => {
     cart: state.cart,
     loginDetails: state.loginDetails,
     registerDetails: state.registerDetails,
-    loginFailure: state.loginFailure
+    loginFailure: state.loginFailure,
+    submitSuccess: state.submitSuccess,
+    orderList: state.orderList
   };
 };
 
@@ -103,6 +116,8 @@ const mapDispatchToProps = (dispatch) => ({
   clearRegister: () => dispatch(clearRegister()),
   logOut: () => dispatch(logOut()),
   loginFailureClose: () => dispatch(loginFailureClose()),
+  submitSuccessClose: () => dispatch(submitSuccessClose()),
+  fetchOrders: (payload) => dispatch(fetchOrders(payload))
 });
 
 

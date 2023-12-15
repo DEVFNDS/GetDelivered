@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { submitOrder } from '../redux/actions';
 
-const CheckoutPage = ({cart, onClose}) => {
+const CheckoutPage = ({cart, onClose, loginDetails, submitOrder}) => {
   const [deliveryOption, setDeliveryOption] = useState('delivery');
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -77,6 +79,14 @@ const CheckoutPage = ({cart, onClose}) => {
     setSelectedLocation(e.target.value);
   };
 
+  let total = 0;
+  let items = [];
+  cart.forEach((item) => {
+      total += parseFloat(item && item.price) * item.count;
+      items.push(item.productName)
+  })
+
+  let totalPrice = total.toFixed(2);
    
 
   const handlePlaceOrder = (e) => {
@@ -126,6 +136,12 @@ const CheckoutPage = ({cart, onClose}) => {
     } else if (!/^\d{10}$/.test(phonePickUp)) {
       errors.phonePickUp = 'Invalid Phone Number.';
     }
+    delete errors.name;
+    delete errors.address; 
+    delete errors.streetName;
+    delete errors.postalCode;
+    delete errors.country;
+    delete errors.phone;
   }
 
   if (deliveryOption === 'delivery') {
@@ -134,19 +150,25 @@ const CheckoutPage = ({cart, onClose}) => {
     } else if (!/^\d{10}$/.test(phone)) {
       errors.phone = 'Invalid Phone Number.';
     }
+    delete errors.phonePickUp;
   }
 
     setErrors(errors);
-
+    console.log(errors);
     if (Object.keys(errors).length === 0) {
       // Proceed with placing the order
-      console.log('Placing order...');
+      const placeOrder = {
+        "userId": loginDetails._id,
+        "items": items,
+        "address": address ? "Address :" + address : "Pickup Location :" + selectedLocation,
+        "finalPrice": totalPrice
+      }
+      console.log('Placing order...', placeOrder);
+      submitOrder(placeOrder);
+
     }
   };
-  let totalPrice = 0;
-  cart.forEach((item) => {
-      totalPrice += parseFloat(item && item.price) * item.count;
-  })
+  
   return (
     
     <div className="checkout-container">
@@ -447,4 +469,9 @@ const CheckoutPage = ({cart, onClose}) => {
   );
 };
 
-export default CheckoutPage;
+
+const mapDispatchToProps = (dispatch) => ({
+  submitOrder: (payload) => dispatch(submitOrder(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(CheckoutPage);
